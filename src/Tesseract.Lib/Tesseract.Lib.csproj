@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <PackageId>Tesseract.Lib</PackageId>
+    <Authors>Franco Lianza</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.4</Version>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TempDirectory>.temp</TempDirectory>
+  </PropertyGroup>
+
+  <Target Name="CreateTempDirectory" BeforeTargets="PrepareForBuild">
+    <MakeDir Directories="$(TempDirectory)" />
+  </Target>
+
+  <Target Name="ZipOutputPath" AfterTargets="CreateTempDirectory">
+    <ZipDirectory SourceDirectory="$(MSBuildProjectDirectory)\Resources" DestinationFile="$(TempDirectory)\Resources.zip" Overwrite="true" />
+  </Target>
+
+  <Target Name="EmbeddedResources" AfterTargets="ZipOutputPath">
+    <ItemGroup>
+      <EmbeddedResource Include="$(TempDirectory)\Resources.zip">
+        <LogicalName>Resources.zip</LogicalName>
+      </EmbeddedResource>
+    </ItemGroup>
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.0.0" />
+  </ItemGroup>
+
+</Project>
