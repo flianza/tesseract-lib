@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -10,11 +9,6 @@ namespace Tesseract.Lib
     public class ProcessRunner : IProcessRunner
     {
         private static readonly int DefaultTimeOut = Convert.ToInt32(TimeSpan.FromMinutes(5).TotalMilliseconds);
-        private readonly ILogger<ProcessRunner> logger;
-        public ProcessRunner(ILogger<ProcessRunner> logger)
-        {
-            this.logger = logger;
-        }
 
         public ProcessResult RunProcess(string command, IEnumerable<string> arguments = null, int? timeout = null, IEnumerable<KeyValuePair<string, string>> environmentVariables = null)
         {
@@ -29,8 +23,6 @@ namespace Tesseract.Lib
                 Output = "",
                 Error = ""
             };
-
-            this.logger.LogInformation("running command: {command} {arguments}", command, arguments != null ? string.Join(" ", arguments) : "");
 
             var timeoutMs = timeout ?? DefaultTimeOut;
 
